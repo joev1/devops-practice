@@ -1,0 +1,23 @@
+---
+
+- name: Install Python on the rescue image
+  raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+- name: Check if "installimage" script exists
+  stat:
+    path: "{{ install_image.path }}"
+  register: stat_result
+
+- block:
+    - name: Abort when "installimage" script doesn't exist
+      debug:
+        msg: "installimage script not found; you have either already installed the image or Hetzner renamed the script. Aborting."
+    - meta: end_play
+  when: stat_result.stat.exists == false
+
+- name: Execute installimage
+  shell: "{{ install_image.path }} -a -n {{ inventory_hostname }} -b grub -r {{ install_image.raid }} -i {{ install_image.image }} -p /boot:ext3:512M,/:ext4:all -d {{ install_image.drives }} -f yes"
+
+- name: Rebooting...
+
+  shell: reboot

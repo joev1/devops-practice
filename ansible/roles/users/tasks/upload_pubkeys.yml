@@ -1,0 +1,34 @@
+---
+
+- name: create root users ssh directory
+  file:
+    path: /root/.ssh
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+
+- name: copy root users authorized keys
+  copy:
+    src: authorized_keys_root
+    dest: /root/.ssh/authorized_keys
+    owner: root
+    group: root
+    mode: 0600
+
+- name: create root users ssh directory
+  file:
+    path: /home/"{{ create_user.user }}"/.ssh
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+
+- name: copy root users authorized keys
+  copy:
+    src: authorized_keys_root
+    dest: /home/"{{ create_user.user }}"/.ssh/authorized_keys
+    owner: root
+    group: root
+    mode: 0600
+

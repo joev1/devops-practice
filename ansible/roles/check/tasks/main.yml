@@ -1,0 +1,20 @@
+---
+
+- name: check sql backup files 
+  become: yes
+  shell: 'find /srv/dev-disk-by-id-scsi-2b4c3cdc900d00000-part4/backup/sqlStorage/ -printf "%Tc %p\n" | sort -r | tail'
+  register: sql_files
+
+- name: print files
+  debug:
+    var: sql_files.stdout_lines
+
+- name: check shared backup file
+  become: yes
+  shell: 'ls /srv/dev-disk-by-id-scsi-2b4c3cdc900d00000-part4/backup/sharedStorage/'
+  register: shared
+
+- name: print shared
+  debug:
+    var: shared.stdout_lines
+

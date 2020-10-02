@@ -1,0 +1,18 @@
+install image:  ansible-playbook --extra-vars "target=vars" install_image.yml
+
+check backup: ansible-playbook -K check.yml 
+
+create a dynamic host:
+- hosts: localhost
+  gather_facts: no
+  vars_prompt:
+  - name: target_host
+    prompt: please enter the target host IP
+    private: no
+  tasks:
+    - add_host:
+        name: "{{ target_host }}
+        groups: dynamically_created_hosts
+- hosts: dynamically_created_hosts
+  tasks:
+  - debug: msg="do things on target host here"

@@ -1,0 +1,8 @@
+---
+
+- name: install tools
+  apt:
+    name:
+      - "{{ install_tools }}"
+    cache_valid_time: 3600
+

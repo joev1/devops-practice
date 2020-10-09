@@ -1,8 +1,9 @@
 provider "aws" {
 }
 
-resource "aws_instance" "ubuntu" {
-    ami = "ami-0817d428a6fb68645"
+resource "aws_instance" "AWS" {
+    ami = "ami-0947d2ba12ee1ff75"
+    iam_instance_profile = ""
     instance_type = "t2.micro"
     vpc_security_group_ids = [aws_security_group.ubuntu_ssh.id]
 //    vpc_security_group_ids = [""]
@@ -16,8 +17,9 @@ resource "aws_instance" "ubuntu" {
     associate_public_ip_address=true
     key_name = ""
     tags = {
-       Name = "cluster"
+       Name = "test"
     }
+
     /*
     provisioner "remote-exec" {
         inline = [
